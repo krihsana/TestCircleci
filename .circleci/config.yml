@@ -3,6 +3,25 @@ jobs:
   build:
     docker: # use the docker executor type; machine and macos executors are also supported
       - image: microsoft/dotnet # the primary container, where your job's commands are run
+    working_directory: /tmp
     steps:
       - checkout # check out the code in the project directory
-      - run: dotnet test
+      - run:
+          name: Restore
+          command: dotnet restore
+      - run:
+          name: Build
+          command: dotnet build
+      - run:
+          name: Test
+          command: dotnet test
+      - run:
+          name: Publish
+          command: |
+            mkdir /tmp/publish;
+            dotnet publish -c Release -o /tmp/publish;
+      - store_artifacts:
+          path: /tmp/publish
+          destination: artifact-file
+      - store_artifacts:
+          path: /tmp/publish
