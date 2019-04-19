@@ -3,9 +3,10 @@ jobs:
   build:
     docker: # use the docker executor type; machine and macos executors are also supported
       - image: microsoft/dotnet # the primary container, where your job's commands are run
-    working_directory: /tmp
+    #working_directory: /tmp
     steps:
       - checkout # check out the code in the project directory
+      - run: ls -lh
       - run:
           name: Restore
           command: dotnet restore
